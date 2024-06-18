@@ -1,4 +1,8 @@
-The CPU is the central component of the Polygon Type 1 Prover. Like any central processing unit, it reads instructions, executes them, and modifies the state (registers and the memory) accordingly. 
+---
+comments: true
+---
+
+The CPU is the central component of the Polygon type 1 prover. Like any central processing unit, it reads instructions, executes them, and modifies the state (registers and the memory) accordingly. 
 
 Other complex instructions, such as Keccak hashing, are delegated to specialized STARK tables. 
 
