@@ -1,15 +1,11 @@
 {% extends "base.html" %}
 
-{% block content %}
-  {{ super() }}
+{% block extrahead %}
 
-  {% if git_page_authors %}
-    <div class="md-source-date">
-      <small>
-          Authors: {{ git_page_authors }}
-      </small>
-    </div>
-  {% endif %}
+    <!-- Verification for Google search -->
+    <meta name="google-site-verification" content="sALqmNQZWZ6_5ig5JqIaFiR6AMUotcGG6xFq_fQPt_U" />
+    <!-- End of verification for Google search -->
+
 {% endblock %}
 
 {% block scripts %}

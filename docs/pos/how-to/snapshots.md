@@ -1,255 +1,104 @@
+<!--
+---
+comments: true
+---
+-->
+
 When setting up a new sentry, validator, or full node server, it is recommended that you use snapshots for faster syncing without having to sync over the network. Using snapshots will save you several days for both Heimdall and Bor. 
 
-!!! note
+## Community snapshots
 
-    We no longer support Bor archive snapshots due to unsustainable data growth.
+Polygon PoS has transitioned to a community-driven model for snapshots. Active community members now contribute to provide snapshots. Some of these members include:
 
-!!!tip
-    
-    For the latest snapshot, please visit [<ins>Polygon Chains Snapshots</ins>](https://snapshot.polygon.technology/).
+| Name                                                                  | Available snapshots   | Note                                         |
+| --------------------------------------------------------------------- | --------------------- | -------------------------------------------- |
+| Stakecraft                                                            | Mainnet, Amoy, Erigon | Support for Erigon archive snapshot          |
+| [PublicNode (by Allnodes)*](https://publicnode.com/snapshots#polygon) | Mainnet, Amoy         | Support for PBSS + PebbleDB enabled snapshot |
+| Stakepool                                                             | Mainnet, Amoy         | -                                            |
+| Vaultstaking                                                          | Mainnet               | -                                            |
+| Girnaar Nodes                                                         | Amoy                  | -                                            |
 
+> *\*The PBSS + PebbleDB snapshot provided by PublicNode is currently in the beta phase.*
 
-## Client snapshots
+!!! info "Snapshot aggregator"
 
-To begin, ensure that your node environment meets the **prerequisites** outlined [here](../how-to/full-node/full-node-binaries.md). Before starting any services, execute the shell script provided below. This script will download and extract the snapshot data, which allows for faster bootstrapping. In our example, we will be using an Ubuntu Linux m5d.4xlarge machine with an 8TB block device attached.
-To transfer the correct chaindata to your disk, follow these steps:
+    Visit [All4nodes.io](https://all4nodes.io/Polygon) for a comprehensive list of community snapshots.
 
-- All one has to do is specify the network ("mainnet" or "mumbai") and client type ("heimdall" or "bor" or "erigon") of your desired snapshot and run the following command:
+## Downloading and using client snapshots
+
+To begin, ensure that your node environment meets the **prerequisites** outlined [here](../how-to/full-node/full-node-binaries.md). 
+
+The majority of snapshot providers have also outlined the steps that need to be followed to download and use their respective client snapshots. Navigate to [All4nodes](https://all4nodes.io/Polygon) to view the snapshot source. 
+
+In case the steps are unavailable or the procedure is unclear, the following tips will come in handy:
+
+- You can use the `wget` command to download and extract the `.tar` snapshot files. For example:
 
 ```bash
-curl -L https://snapshot-download.polygon.technology/snapdown.sh | bash -s -- --network {{ network }} --client {{ client }} --extract-dir {{ extract_dir }} --validate-checksum {{ true / false }}
+wget -O - snapshot_url_here | tar -xvf -C /target/directory
 ```
 
-For example:
+- Configure your client's `datadir` setting to match the directory where you downloaded and extracted the snapshot data. This ensures the `systemd` services can correctly register the snapshot data when the client is spun up.
+
+- To maintain your client's default configuration settings, consider using symbolic links (symlinks).
+
+## Example
+
+Let's say you have mounted your block device at `~/snapshots` and have downloaded and extracted the chain data into the `heimdall_extract` directory for Heimdall, and into the `bor_extract` directory for Bor. Use the following commands to register the extracted data for Heimdall and Bor `systemd` services:
 
 ```bash
-curl -L https://snapshot-download.polygon.technology/snapdown.sh | bash -s -- --network mainnet --client heimdall --extract-dir data --validate-checksum true
-```
-
-> This bash script automatically handles all download and extraction phases, as well as optimizing disk space by deleting already extracted files along the way.
-
-- `--extract-dir` and `--validate-checksum` flags are optional.
-- Consider using a Screen session to prevent accidental interruptions during the chaindata download and extraction process.
-- The raw bash script code is collapsed below for transparency:
-
-<details> 
-<summary>View script here ↓</summary>
-
-```bash
-  #!/bin/bash
-
-  function validate_network() {
-    if [[ "$1" != "mainnet" && "$1" != "mumbai" ]]; then
-      echo "Invalid network input. Please enter 'mainnet' or 'mumbai'."
-      exit 1
-    fi
-  }
-
-  function validate_client() {
-    if [[ "$1" != "heimdall" && "$1" != "bor" && "$1" != "erigon" ]]; then
-      echo "Invalid client input. Please enter 'heimdall' or 'bor' or 'erigon'."
-      exit 1
-    fi
-  }
-
-  function validate_checksum() {
-    if [[ "$1" != "true" && "$1" != "false" ]]; then
-      echo "Invalid checksum input. Please enter 'true' or 'false'."
-      exit 1
-    fi
-  }
-
-  # Parse command-line arguments
-  while [[ $# -gt 0 ]]; do
-    key="$1"
-
-    case $key in
-      -n | --network)
-        validate_network "$2"
-        network="$2"
-        shift # past argument
-        shift # past value
-        ;;
-      -c | --client)
-        validate_client "$2"
-        client="$2"
-        shift # past argument
-        shift # past value
-        ;;
-      -d | --extract-dir)
-        extract_dir="$2"
-        shift # past argument
-        shift # past value
-        ;;
-      -v | --validate-checksum)
-        validate_checksum "$2"
-        checksum="$2"
-        shift # past argument
-        shift # past value
-        ;;
-      *) # unknown option
-        echo "Unknown option: $1"
-        exit 1
-        ;;
-    esac
-  done
-
-  # Set default values if not provided through command-line arguments
-  network=${network:-mumbai}
-  client=${client:-heimdall}
-  extract_dir=${extract_dir:-"${client}_extract"}
-  checksum=${checksum:-false}
-
-
-  # install dependencies and cursor to extract directory
-  sudo apt-get update -y
-  sudo apt-get install -y zstd pv aria2
-  mkdir -p "$extract_dir"
-  cd "$extract_dir"
-
-  # download compiled incremental snapshot files list
-  aria2c -x6 -s6 "https://snapshot-download.polygon.technology/$client-$network-parts.txt"
-
-  # remove hash lines if user declines checksum verification
-  if [ "$checksum" == "false" ]; then
-      sed -i '/checksum/d' $client-$network-parts.txt
-  fi
-
-  # download all incremental files, includes automatic checksum verification per increment
-  aria2c -x6 -s6 --max-tries=0 --save-session-interval=60 --save-session=$client-$network-failures.txt --max-connection-per-server=4 --retry-wait=3 --check-integrity=$checksum -i $client-$network-parts.txt
-
-  max_retries=5
-  retry_count=0
-
-  while [ $retry_count -lt $max_retries ]; do
-      echo "Retrying failed parts, attempt $((retry_count + 1))..."
-      aria2c -x6 -s6 --max-tries=0 --save-session-interval=60 --save-session=$client-$network-failures.txt --max-connection-per-server=4 --retry-wait=3 --check-integrity=$checksum -i $client-$network-failures.txt
-
-      # Check the exit status of the aria2c command
-      if [ $? -eq 0 ]; then
-          echo "Command succeeded."
-          break  # Exit the loop since the command succeeded
-      else
-          echo "Command failed. Retrying..."
-          retry_count=$((retry_count + 1))
-      fi
-  done
-
-  # Don't extract if download/retries failed.
-  if [ $retry_count -eq $max_retries ]; then
-      echo "Download failed. Restart the script to resume downloading."
-      exit 1
-  fi
-
-  declare -A processed_dates
-
-  # Join bulk parts into valid tar.zst and extract
-  for file in $(find . -name "$client-$network-snapshot-bulk-*-part-*" -print | sort); do
-      date_stamp=$(echo "$file" | grep -o 'snapshot-.*-part' | sed 's/snapshot-\(.*\)-part/\1/')
-
-      # Check if we have already processed this date
-      if [[ -z "${processed_dates[$date_stamp]}" ]]; then
-          processed_dates[$date_stamp]=1
-          output_tar="$client-$network-snapshot-${date_stamp}.tar.zst"
-          echo "Join parts for ${date_stamp} then extract"
-          cat $client-$network-snapshot-${date_stamp}-part* > "$output_tar"
-          rm $client-$network-snapshot-${date_stamp}-part*
-          pv $output_tar | tar -I zstd -xf - -C . && rm $output_tar
-      fi
-  done
-
-  # Join incremental following day parts
-  for file in $(find . -name "$client-$network-snapshot-*-part-*" -print | sort); do
-      date_stamp=$(echo "$file" | grep -o 'snapshot-.*-part' | sed 's/snapshot-\(.*\)-part/\1/')
-
-      # Check if we have already processed this date
-      if [[ -z "${processed_dates[$date_stamp]}" ]]; then
-          processed_dates[$date_stamp]=1
-          output_tar="$client-$network-snapshot-${date_stamp}.tar.zst"
-          echo "Join parts for ${date_stamp} then extract"
-          cat $client-$network-snapshot-${date_stamp}-part* > "$output_tar"
-          rm $client-$network-snapshot-${date_stamp}-part*
-          pv $output_tar | tar -I zstd -xf - -C . --strip-components=3 && rm $output_tar
-      fi
-  done
-```
-
-</details>
-
-!!! note
-
-    If experiencing intermittent `aria2c` download errors, try reducing concurrency as shown here:
-
-    ```bash
-    aria2c -c -m 0 -x6 -s6 -i $client-$network-parts.txt --max-concurrent-downloads=1
-    ```
-
-Once the extraction is complete, ensure that you update the datadir configuration of your client to point to the path where the extracted data is located. This ensures that the systemd services can correctly register the snapshot data when the client starts. 
-If you wish to preserve the default client configuration settings, you can use symbolic links (symlinks).
-
-For example, let's say you have mounted your block device at `~/snapshots` and have downloaded and extracted the chaindata
-for Heimdall into the directory `heimdall_extract`, and for Bor into the directory `bor_extract`. To ensure proper registration
-of the extracted data when starting the Heimdall or Bor systemd services, you can use the following sample commands:
-
-```bash
-# remove any existing datadirs for heimdall and bor
+# remove any existing datadirs for Heimdall and Bor
 rm -rf /var/lib/heimdall/data
-rm -rf /var/lib/bor/chaindata
+rm -rf /var/lib/bor/data/bor/chaindata
 
 # rename and setup symlinks to match default client datadir configs
 mv ~/snapshots/heimdall_extract ~/snapshots/data
 mv ~/snapshots/bor_extract ~/snapshots/chaindata
 sudo ln -s ~/snapshots/data /var/lib/heimdall
-sudo ln -s ~/snapshots/chaindata /var/lib/bor
+sudo ln -s ~/snapshots/chaindata /var/lib/bor/data/bor
 
 # bring up clients with all snapshot data properly registered
 sudo service heimdalld start
-# wait for heimdall to fully sync then start bor
+# wait for Heimdall to fully sync then start Bor
 sudo service bor start
 ```
 
+!!! tip "Appropriate user permissions"
+    
+    Ensure that the Bor and Heimdall user files have appropriate permissions to access the `datadir`. To set correct permissions for Bor, execute `sudo chown -R bor:nogroup /var/lib/heimdall/data`. Similarly, for Heimdall, run `sudo chown -R heimdall:nogroup /var/lib/bor/data/bor`
+
 ## Recommended disk size guidance
 
-**Polygon Mumbai Testnet**
+### Polygon Amoy testnet
 
-| Metric | Calculation Breakdown | Value |
-| ------ | --------------------- | ----------- |
-| approx. compressed total | 250 GB (bor) + 35 GB (heimdall) | 285 GB |
-| approx. data growth daily | 10 GB (bor) + .5 GB (heimdall) | 10.5 GB |
-| approx. total extracted size | 350 GB (bor) + 50 GB (heimdall) | 400 GB |
-| suggested disk size (2.5x buffer) | 400 GB * 2.5 (natural chain growth) | 1 TB | 
+| Metric                            | Calculation Breakdown               | Value   |
+| --------------------------------- | ----------------------------------- | ------- |
+| approx. compressed total          | 250 GB (Bor) + 35 GB (Heimdall)     | 285 GB  |
+| approx. data growth daily         | 10 GB (Bor) + 0.5 GB (Heimdall)     | 10.5 GB |
+| approx. total extracted size      | 350 GB (Bor) + 50 GB (Heimdall)     | 400 GB  |
+| suggested disk size (2.5x buffer) | 400 GB * 2.5 (natural chain growth) | 1 TB    |
 
-**Polygon Mainnet**
+### Polygon mainnet
 
-| Metric | Calculation Breakdown | Value |
-| ------ | --------------------- | ----------- |
-| approx. compressed total | 1500 GB (bor) + 225 GB (heimdall) | 1725 GB |
-| approx. data growth daily | 100 GB (bor) + 5 GB (heimdall) | 105 GB |
-| approx. total extracted size | 2.1 TB (bor) + 300 GB (heimdall) | 2.4 TB |
-| suggested disk size (2.5x buffer) | 2.4 TB * 2.5 (natural chain growth) | 6 TB |
+| Metric                            | Calculation Breakdown             | Value   |
+| --------------------------------- | --------------------------------- | ------- |
+| approx. compressed total          | 3000 GB (Bor) + 500 GB (Heimdall) | 3500 GB |
+| approx. data growth daily         | 100 GB (Bor) + 5 GB (Heimdall)    | 105 GB  |
+| approx. total extracted size      | 4 TB (Bor) + 500 GB (Heimdall)    | 4.5 TB  |
+| suggested disk size (2.5x buffer) | 4 TB * 2 (natural chain growth)   | 8 TB    |
 
-**Polygon Mumbai Erigon Archive**
+### Polygon Amoy Erigon archive
 
-| Metric | Calculation Breakdown | Value |
-| ------ | --------------------- | ----------- |
-| approx. compressed total | 210 GB (erigon) + 35 GB (heimdall) | 245 GB |
-| approx. data growth daily | 4.5 GB (erigon) + .5 GB (heimdall) | 5 GB |
-| approx. total extracted size | 875 GB (erigon) + 50 GB (heimdall) | 925 GB |
-| suggested disk size (2.5x buffer) | 925 GB * 2.5 (natural chain growth) | 2.5 TB | 
-
-!!! note
-
-    PoS Network is deprecating Archive Node snapshots we request users to move to the Erigon Client and make use of Erigon Snapshots.
-
-**Polygon Mainnet Erigon Archive**
-
-Currently under maintenance. ETA Aug 2023 for Erigon bor-mainnet incremental snapshots.
+| Metric                            | Calculation Breakdown               | Value  |
+| --------------------------------- | ----------------------------------- | ------ |
+| approx. compressed total          | 210 GB (Erigon) + 35 GB (Heimdall)  | 245 GB |
+| approx. data growth daily         | 4.5 GB (Erigon) + 0.5 GB (Heimdall) | 5 GB   |
+| approx. total extracted size      | 875 GB (Erigon) + 50 GB (Heimdall)  | 925 GB |
+| suggested disk size (2.5x buffer) | 925 GB * 2.5 (natural chain growth) | 2.5 TB |
 
 ## Recommended disk type and IOPS guidance
 
-- Disk IOPS will impact speed of downloading/extracting snapshots,
-  getting in sync, and performing LevelDB compaction
-- To minimize disk latency, direct attached storage is ideal.
-- In AWS, when using gp3 disk types, we recommend provisioning IOPS of 16000 and
-  throughput of 1000 - this minimizes cost and adds a lot of performance. io2 EBS volumes with matching IOPS and throughput values are similarly performant.
-- For GCP, we recommend using performance (SSD) persistent disks (`pd-ssd`) or extreme persistent disks (`pd-extreme`) with similar IOPS and throughput values as seen above.
+- Disk IOPS will affect the speed of downloading/extracting snapshots, getting in sync, and performing LevelDB compaction.
+- To minimize disk latency, direct-attached storage is ideal.
+- In AWS, when using gp3 disk types, we recommend provisioning IOPS of 16,000 and throughput of 1,000. This minimizes costs while providing significant performance benefits. io2 EBS volumes with matching IOPS and throughput values offer similar performance.
+- For GCP, we recommend using performance (SSD) persistent disks (`pd-ssd`) or extreme persistent disks (`pd-extreme`) with similar IOPS and throughput values as mentioned above.

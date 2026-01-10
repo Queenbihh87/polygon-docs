@@ -1,3 +1,9 @@
+<!--
+---
+comments: true
+---
+-->
+
 !!! note
 
     The API links have been changed from `https://apis.matic.network` &rarr; `https://proof-generator.polygon.technology`. Please make sure to update the links.
@@ -18,7 +24,7 @@ setProofApi("https://proof-generator.polygon.technology/");
 
     Utilizing a self-hosted Proof Generation API service will offer better performance compared to a publicly hosted one.
 
-Please follow the installation instructions provided in the `README.md` file in [this repository](https://github.com/maticnetwork/proof-generation-api) to self-host the service.
+Please follow the installation instructions provided in the `README.md` file in [this repository](https://github.com/0xPolygon/proof-generation-api) to self-host the service.
 
 Let's say you have deployed the Proof API and your base URL is `https://abc.xyz/`. In this case, you need to set the base URL in `setProofApi` as follows.
 

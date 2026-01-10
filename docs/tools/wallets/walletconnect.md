@@ -1,7 +1,7 @@
 !!! caution "Content disclaimer"
     Please view the third-party content disclaimer [here](https://github.com/0xPolygon/polygon-docs/blob/main/CONTENT_DISCLAIMER.md).
 
-**WalletConnect** is an open protocol - not a wallet - built to create a communication link between dApps and wallets. A wallet and an application supporting this protocol will enable a secure link through a shared key between any two peers. A connection is initiated by the dApp displaying a QR code with a standard WalletConnect URI and the connection is established when the wallet application approves the connection request. Further requests regarding funds transfer are confirmed on the wallet application itself.
+[WalletConnect](https://walletconnect.com/) is an open protocol - not a wallet - built to create a communication link between dApps and wallets. A wallet and an application supporting this protocol will enable a secure link through a shared key between any two peers. A connection is initiated by the dApp displaying a QR code with a standard WalletConnect URI and the connection is established when the wallet application approves the connection request. Further requests regarding funds transfer are confirmed on the wallet application itself.
 
 ## Set up web3
 
@@ -26,12 +26,12 @@ import Web3 from "web3"
 import Matic from "maticjs"
 ```
 
-Next, set up Polygon and Ropsten provider via WalletConnect’s object:
+Next, set up Polygon and Sepolia provider via WalletConnect’s object:
 
 ```javascript
 const maticProvider = new WalletConnectProvider(
   {
-    host: `https://rpc-mumbai.matic.today`,
+    host: `https://rpc-amoy.polygon.technology`,
     callbacks: {
       onConnect: console.log('connected'),
       onDisconnect: console.log('disconnected!')
@@ -39,8 +39,8 @@ const maticProvider = new WalletConnectProvider(
   }
 )
 
-const ropstenProvider = new WalletConnectProvider({
-  host: `https://ropsten.infura.io/v3/70645f042c3a409599c60f96f6dd9fbc`,
+const sepoliaProvider = new WalletConnectProvider({
+  host: `https://ethereum-sepolia-rpc.publicnode.com`,
   callbacks: {
     onConnect: console.log('connected'),
     onDisconnect: console.log('disconnected')
@@ -52,7 +52,7 @@ We created the above two provider objects to instantiate our Web3 object with:
 
 ```js
 const maticWeb3 = new Web3(maticProvider)
-const ropstenWeb3 = new Web3(ropstenProvider)
+const sepoliaWeb3 = new Web3(sepoliaProvider)
 ```
 
 ## Instantiating contracts

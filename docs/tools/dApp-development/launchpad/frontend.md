@@ -1,3 +1,9 @@
+<!--
+---
+comments: true
+---
+-->
+
 ## Framework
 
 The frontend runs on a Next.js server. 

@@ -14,25 +14,38 @@ hide:
     <div class="hero-left">
        <h1 class="hero-heading">Polygon zkEVM</h1>
        <p class="hero-subtext">Polygon zkEVM is a Layer 2 network of the Ethereum Virtual Machine (EVM), a zero-knowledge (ZK) rollup scaling solution.</p>
+       <p>
+  <a href="https://forum.polygon.technology/t/sunsetting-polygon-zkevm-mainnet-beta-in-2026/21020" target="_blank" rel="noopener noreferrer">
+    Note: The zkEVM network will be sunsetting during 2026
+  </a>
+</p>
     </div>
     </br>
 </div>
 
 <div class="grid-container">
     <div class="grid-item">
+       <a href="./overview">
+          <div class="product-list-item-header">
+             <div class="feature-card-heading">Polygon zkEVM overview</div>
+          </div>
+          <p class="feature-paragraph">Take a global view of the Polygon zkEVM network.</p>
+       </a>
+    </div>
+    <div class="grid-item">
+       <a href="./get-started/quick-start">
+          <div class="product-list-item-header">
+             <div class="feature-card-heading">Connect wallet</div>
+          </div>
+          <p class="feature-paragraph">Connect your wallet to zkEVM mainnet or testnet.</p>
+       </a>
+    </div>
+    <div class="grid-item">
        <a href="./get-started/setup-nodes/local-node">
           <div class="product-list-item-header">
              <div class="feature-card-heading">zkEVM local node</div>
           </div>
           <p class="feature-paragraph">Get started by setting up a local zkEVM node.</p>
-       </a>
-    </div>
-    <div class="grid-item">
-       <a href="./get-started/deploy-zkevm/">
-          <div class="product-list-item-header">
-             <div class="feature-card-heading">Deploy zkEVM</div>
-          </div>
-          <p class="feature-paragraph">Get started by deploying zkEVM on Goerli.</p>
        </a>
     </div>
     <div class="grid-item">
@@ -43,6 +56,13 @@ hide:
           <p class="feature-paragraph">Discover the key differences between zkEVM and EVM.</p>
        </a>
     </div>
+    <div class="grid-item">
+       <a href="./get-started/setup-nodes/deploy-zkevm/intro">
+          <div class="product-list-item-header">
+             <div class="feature-card-heading">Deploy zkEVM</div>
+          </div>
+          <p class="feature-paragraph">Get started by deploying zkEVM.</p>
+       </a>
+    </div>
 </div>
 </div>
-

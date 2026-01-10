@@ -1,6 +1,12 @@
+<!--
+---
+comments: true
+---
+-->
+
 The Polygon CDK validium is one of two configuration options of the Polygon CDK, the other being the Polygon zkEVM rollup.
 
-As per [the definition](https://ethereum.org/developers/docs/scaling/validium), the Polygon CDK validium uses validity proofs to enforce integrity of state transitions, but it does not store transaction data on the Ethereum network.
+As per [the definition of validium](https://ethereum.org/developers/docs/scaling/validium), the Polygon CDK validium uses validity proofs to enforce integrity of state transitions, but it does not store transaction data on the Ethereum network.
 
 The Polygon CDK validium is in fact a _zero-knowledge validium_ (zkValidium) because it utilises the Polygon zkEVM's off-chain prover to produce zero-knowledge proofs, which are published as _validity proofs_.
 
@@ -15,7 +21,7 @@ The validium configuration has one major advantage over the zkEVM rollup option:
 In relation to storing transaction data off-chain, the CDK validium comes with the requirement to manage the data.
 
 - First of all, the transaction data is not published to the L1 but only the hash of the data.
-- Secondly, a trusted-sequencer collects transactions from the pool DB, puts them into batches and computes the hash of the transaction data. 
+- Secondly, a trusted-sequencer collects transactions from the transaction pool manager, puts them into batches and computes the hash of the transaction data. 
 
 It is due to the above two points that the Polygon CDK validium has to have a set of _trusted actors_, who can monitor and even authenticate the hash values that the sequencer proposes to be published on the L1. 
 

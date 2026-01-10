@@ -4,7 +4,7 @@ hide:
 ---
 
 <style>
-   .git-revision-date-localized-plugin, .md-source-file, .md-content__button.md-icon {
+   .md-source-file, .md-content__button.md-icon {
       display: none;
    }
 </style>
@@ -15,33 +15,17 @@ hide:
       <h1 class="hero-heading">Polygon Miden</h1>
       <h2><code>Software in development</code></h2>
       <h2></h2>
-      <p class="hero-subtext">Polygon Miden is an in-development zero-knowledge (zk) rollup running on the Miden VM, a virtual machine that prioritizes zk-friendliness over EVM compatibility.</p>
+      <p class="hero-subtext">Polygon Miden is a zero-knowledge rollup for high-throughput, private applications.</p>
    </div>
 </div>
 
 <div class="grid-container">
    <div class="grid-item">
-      <a href="./miden-base/introduction/roadmap/">
+      <a href="https://0xpolygonmiden.github.io/miden-docs/">
          <div class="product-list-item-header">
-            <div class="feature-card-heading">Roadmap</div>
+            <div class="feature-card-heading">Miden docs</div>
          </div>
-         <p class="feature-paragraph">Check out the Miden roadmap for the latest updates.</p>
-      </a>
-   </div>
-   <div class="grid-item">
-      <a href="./miden-base/introduction/getting-started/">
-         <div class="product-list-item-header">
-            <div class="feature-card-heading">Getting started</div>
-         </div>
-         <p class="feature-paragraph">Follow the Miden getting started guide to get up and running.</p>
-      </a>
-   </div>
-   <div class="grid-item">
-      <a href="./miden-base/architecture/overview/">
-         <div class="product-list-item-header">
-            <div class="feature-card-heading">Miden architecture</div>
-         </div>
-         <p class="feature-paragraph">Learn more about the Miden architecture.</p>
+         <p class="feature-paragraph">Learn everything about Miden.</p>
       </a>
    </div>
 </div>

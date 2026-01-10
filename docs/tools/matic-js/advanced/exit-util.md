@@ -1,3 +1,9 @@
+<!--
+---
+comments: true
+---
+-->
+
 `matic.js` internally use `ExitUtil` for generating proofs. It is a class which has different methods for helping with exit utilities.
 
 ## buildPayloadForExit
@@ -17,7 +23,7 @@ const client = new Web3SideChainClient<any>();
 await client.init({
     // log: true,
     network: 'testnet',
-    version: 'mumbai',
+    version: 'amoy',
     parent: {
         provider: new HDWalletProvider(privateKey, RPC.parent),
         defaultConfig: {
@@ -62,7 +68,7 @@ use(Web3ClientPlugin);
 const posClient = new POSClient();
 await posClient.init({
     network: 'testnet',
-    version: 'mumbai',
+    version: 'amoy',
     parent: {
       provider: new HDWalletProvider(privateKey, mainRPC),
       defaultConfig: {

@@ -1,3 +1,9 @@
+<!--
+---
+comments: true
+---
+-->
+
 [ethers.js](https://docs.ethers.io/) is a library for interacting with the Ethereum Blockchain and its ecosystem.
 
 ## Setup ether.js
@@ -37,7 +43,7 @@ const childProvider = new providers.JsonRpcProvider(rpc.child);
 const posClient = new POSClient();
 await posClient.init({
     network: 'testnet',
-    version: 'mumbai',
+    version: 'amoy',
     parent: {
       provider: new Wallet(privateKey, parentProvider),
       defaultConfig: {

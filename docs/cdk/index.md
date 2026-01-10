@@ -1,6 +1,6 @@
 ---
 hide:
-- toc
+  - toc
 ---
 
 <style>
@@ -13,50 +13,58 @@ hide:
    <div class="hero-image"><img src="../img/cdk/cdk.svg" loading="lazy" class="hero-image" style="width: 40%; float: right;"></div>
    <div class="hero-left">
       <h1 class="hero-heading">Polygon CDK</h1>
-      <p class="hero-subtext">Polygon Chain Development Kit (CDK) is a modular, open source software toolkit allowing blockchain developers to launch new zero-knowledge proof (zkEVM plus optional validium) L2 chains on Ethereum.</p>
+      <p class="hero-subtext">Polygon Chain Development Kit (CDK) is a modular, open-source blockchain stack for developers launching sovereign L2 chains powered by zero-knowledge (ZK) proofs.</p>
    </div>
    </br>
 </div>
 
 <div class="grid-container">
    <div class="grid-item">
-      <a href="./architecture/type-1-prover/intro-t1-prover">
+      <a href="./overview">
          <div class="product-list-item-header">
-            <div class="feature-card-heading">Polygon Type 1 Prover</div>
+            <div class="feature-card-heading">Understand the CDK</div>
          </div>
-         <p class="feature-paragraph">Find out about the Polygon Type 1 Prover component.</p>
+         <p class="feature-paragraph">A high-level overview of the CDK, its features and benefits.</p>
       </a>
    </div>
    <div class="grid-item">
-      <a href="./get-started/quickstart-rollup">
+      <a href="./getting-started/local-deployment/">
          <div class="product-list-item-header">
-            <div class="feature-card-heading">CDK rollups</div>
+            <div class="feature-card-heading">Try out the CDK locally</div>
          </div>
-         <p class="feature-paragraph">Get started with the CDK zkRollup stack.</p>
+         <p class="feature-paragraph">Get started by deploying a chain on your local machine.</p>
       </a>
    </div>
    <div class="grid-item">
-      <a href="./get-started/quickstart-validium">
+      <a href="./concepts/layer2s">
          <div class="product-list-item-header">
-            <div class="feature-card-heading">CDK validiums</div>
+            <div class="feature-card-heading">CDK concepts</div>
          </div>
-         <p class="feature-paragraph">Get started with the CDK validium stack.</p>
+         <p class="feature-paragraph">Learn about the concepts behind the CDK.</p>
+      </a>
+   </div>
+    <div class="grid-item">
+      <a href="./architecture/cdk-zkevm">
+         <div class="product-list-item-header">
+            <div class="feature-card-heading">CDK architecture</div>
+         </div>
+         <p class="feature-paragraph">Dive deeper into the components of a CDK chain and how they interact.</p>
       </a>
    </div>
    <div class="grid-item">
-      <a href="./spec/validium-vs-rollup">
+      <a href="https://github.com/0xPolygon/cdk-validium-node" target="_blank">
          <div class="product-list-item-header">
-            <div class="feature-card-heading">Rollup versus validium</div>
+            <div class="feature-card-heading">Contribute to the CDK</div>
          </div>
-         <p class="feature-paragraph">Discover the key differences between the rollup and validium infrastructure options.</p>
+         <p class="feature-paragraph">Get involved in building the open-source CDK stack on GitHub.</p>
       </a>
    </div>
    <div class="grid-item">
-      <a href="./glossary">
+      <a href="https://discord.com/invite/0xpolygonRnD" target="_blank">
          <div class="product-list-item-header">
-            <div class="feature-card-heading">Glossary</div>
+            <div class="feature-card-heading">Join the dev community</div>
          </div>
-         <p class="feature-paragraph">Learn about commonly used terminology and concepts relevant to the CDK tech stack.</p>
+         <p class="feature-paragraph">Join our developer Discord server to ask questions and get help.</p>
       </a>
    </div>
 </div>

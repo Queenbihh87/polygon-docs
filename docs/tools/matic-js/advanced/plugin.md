@@ -1,3 +1,9 @@
+<!--
+---
+comments: true
+---
+-->
+
 Using plugin you can inject your code into `matic.js`. It can be used to write common set of generic codes which can be provided to anyone using a package.
 
 !!! info
@@ -41,4 +47,4 @@ You can use multiple plugins and they will be called in the same order as they a
 
 - [Matic web3.js](https://github.com/maticnetwork/maticjs-web3)
 - [Matic ethers](https://github.com/maticnetwork/maticjs-ethers)
-- [FxPortal.js](https://github.com/maticnetwork/fx-portal.js)
+- [FxPortal.js](https://github.com/0xPolygon/fx-portal.js)

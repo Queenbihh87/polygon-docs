@@ -1,6 +1,6 @@
 # Polygon Knowledge Layer
 
-Welcome to the Polygon Knowledge Layer.
+Welcome to the Polygon Knowledge Layer!
 
 These docs use [the Material theme for MkDocs](https://squidfunk.github.io/mkdocs-material/). Our goal is to establish a high-quality, curated, and comprehensive "source of truth" for Polygon's technology. 
 
@@ -68,9 +68,5 @@ docker compose up
 
 - For docs issues (technical or language) open an issue here.
 - For technical issues with the software, either raise an issue here and we will follow up, or check https://support.polygon.technology/support/home. 
-
-## The team
-
-- Anthony Matlala (@EmpieichO)
-- Katharine Murphy (@kmurphypolygon)
-- Hans (@hsutaiyu) 
+ 
+# 

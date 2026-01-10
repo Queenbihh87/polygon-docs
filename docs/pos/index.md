@@ -28,7 +28,7 @@ hide:
        </a>
     </div>
     <div class="grid-item">
-       <a href="./how-to/#deploy-operate-and-maintain-nodes">
+       <a href="./how-to/choose-node-type">
           <div class="product-list-item-header">
              <div class="feature-card-heading">Run a PoS node</div>
           </div>
@@ -36,7 +36,7 @@ hide:
        </a>
     </div>
     <div class="grid-item">
-       <a href="./architecture/">
+       <a href="https://docs.polygon.technology/pos/architecture/overview/">
           <div class="product-list-item-header">
              <div class="feature-card-heading">PoS architecture</div>
           </div>
@@ -45,5 +45,3 @@ hide:
     </div>
 </div>
 </div>
-
-

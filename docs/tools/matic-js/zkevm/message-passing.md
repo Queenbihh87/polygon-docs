@@ -1,3 +1,9 @@
+<!--
+---
+comments: true
+---
+-->
+
 This document demonstrates inter-layer message passing using the messaging layer of the Polygon bridge. As an example, we go over how to customize wrapped tokens using adapter contracts, and how to use Matic.js to bridge assets from Ethereum to Polygon zkEVM and vice versa.
 
 !!! info "Terminology"
@@ -43,7 +49,7 @@ For the sake of maintaining consistency among wrapped tokens in terms of the bri
 
 1. Adapter contracts need to implement the [Polygon bridge library](https://github.com/0xPolygonHermez/code-examples/blob/main/customERC20-bridge-example/contracts/base/PolygonERC20BridgeBase.sol) and expose `bridgeToken()` and `onMessageReceived()` functions.
 2. There should be two separate adapter contracts; `OriginChainBridgeAdapter` and `WrapperChainBridgeAdapter`.
-3. `bridgeToken` function should match the exact function signature and be similar to [this](https://github.com/maticnetwork/static/blob/master/network/mainnet/cherry/artifacts/zkevm/ZkEVMBridgeAdapter.json) ABI.
+3. `bridgeToken` function should match the exact function signature and be similar to [this](https://github.com/0xPolygon/static/blob/master/network/mainnet/cherry/artifacts/zkevm/ZkEVMBridgeAdapter.json) ABI.
 
 ### Nice to have
 
@@ -113,7 +119,7 @@ The bridge will call the `onMessageReceived` function in the `OriginChainBridgeA
 
     Note that it is important to follow [standardizations](#standardizations) for easy listing.
 
-1. Add your token to this [token list on GitHub](https://github.com/maticnetwork/polygon-token-list/blob/dev/src/tokens/zkevmPopularTokens.json).
+1. Add your token to this [token list on GitHub](https://github.com/0xPolygon/polygon-token-list/blob/dev/src/tokens).
     
     Example:
 

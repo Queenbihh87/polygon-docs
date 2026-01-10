@@ -1,3 +1,9 @@
+<!--
+---
+comments: true
+---
+-->
+
 ## Build from source
 
 To build from source, clone the dApp Launchpad repository.
